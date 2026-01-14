@@ -5,6 +5,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
 
+
+
 app = FastAPI()
 
 app.add_middleware(
@@ -66,3 +68,9 @@ def parse_pipeline(pipeline: Pipeline):
         "num_edges": len(pipeline.edges),
         "is_dag": is_dag(pipeline.nodes, pipeline.edges),
     }
+    
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=10000)
+
+    
