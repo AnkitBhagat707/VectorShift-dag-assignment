@@ -1,28 +1,30 @@
-
-from fastapi.middleware.cors import CORSMiddleware
-
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 
-
-
 app = FastAPI()
 
+# Allow only your Vercel frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],     
+    allow_origins=[
+        "https://vector-shift-dag-assignment.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+
 class Node(BaseModel):
     id: str
+
 
 class Edge(BaseModel):
     source: str
     target: str
+
 
 class Pipeline(BaseModel):
     nodes: List[Node]
@@ -68,9 +70,8 @@ def parse_pipeline(pipeline: Pipeline):
         "num_edges": len(pipeline.edges),
         "is_dag": is_dag(pipeline.nodes, pipeline.edges),
     }
-    
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=10000)
-
-    
