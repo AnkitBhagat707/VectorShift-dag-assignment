@@ -5,13 +5,10 @@ from typing import List
 
 app = FastAPI()
 
-# Allow only your Vercel frontend
+# CORS — allow Vercel frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://vector-shift-dag-assignment.vercel.app"
-    ],
-    allow_credentials=True,
+    allow_origins=["https://vector-shift-dag-assignment.vercel.app"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
