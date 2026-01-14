@@ -5,36 +5,39 @@ export const SubmitButton = () => {
   const { nodes, edges } = useStore();
 
   const handleSubmit = async () => {
-    if (nodes.length === 0) {
-      showAlert("Pipeline is empty", "warning");
+    if (!nodes.length) {
+      showAlert("⚠️ Pipeline is empty");
       return;
     }
 
     try {
-      const response = await fetch("https://vectorshift-dag-assignment.onrender.com/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nodes: nodes.map((n) => ({ id: n.id })),
-          edges: edges.map((e) => ({
-            source: e.source,
-            target: e.target,
-          })),
-        }),
-      });
+      const response = await fetch(
+        "https://vector-dag-backend.onrender.com/pipelines/parse",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nodes: nodes.map((node) => ({ id: node.id })),
+            edges: edges.map((edge) => ({
+              source: edge.source,
+              target: edge.target,
+            })),
+          }),
+        }
+      );
 
       const data = await response.json();
 
       showAlert(
-  `Nodes: ${data.num_nodes}, Edges: ${data.num_edges}, DAG: ${data.is_dag ? "Yes" : "No"}`,
-  "success"
-);
-
-    } catch (error) {
-      console.error(error);
-      showAlert("Backend error", "error");
+        `✅ Pipeline Validated\nNodes: ${data.num_nodes}\nEdges: ${data.num_edges}\nDAG: ${
+          data.is_dag ? "Yes" : "No"
+        }`
+      );
+    } catch (err) {
+      console.error(err);
+      showAlert("❌ Backend connection failed");
     }
   };
 
