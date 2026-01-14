@@ -57,7 +57,7 @@ def is_dag(nodes, edges):
 
 @app.get("/")
 def read_root():
-    return {"Ping": "Pong"}
+    return {"Hey, hii": "kaise ho backend engineer"}
 
 
 @app.post("/pipelines/parse")

@@ -12,7 +12,7 @@ export const SubmitButton = () => {
 
     try {
       const response = await fetch(
-        "https://vector-dag-backend.onrender.com/pipelines/parse",
+        "https://vectorshift-dag-assignment.onrender.com/pipelines/parse",
         {
           method: "POST",
           headers: {
